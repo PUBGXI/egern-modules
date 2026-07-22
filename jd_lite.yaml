@@ -1,0 +1,180 @@
+name: "京东精简模式"
+description: "仅保留京东核心业务请求，屏蔽广告、埋点上报、统计追踪、风控上报、推送配置、皮肤等资源"
+author: "minis"
+icon: "cart.badge.minus"
+homepage: "https://doc.egernapp.com"
+manual: "https://doc.egernapp.com/zh-CN/docs/configuration/modules"
+
+rules:
+  # ════════════════════════════════════════════════
+  # 整域名屏蔽：埋点 / 日志上报 / 性能监控
+  # ════════════════════════════════════════════════
+  # mars.jd.com - 232条 SDK 日志上报（占比27.5%）
+  - domain_suffix:
+      match: mars.jd.com
+      policy: REJECT
+  # perf.m.jd.com - 性能监控 & 上报
+  - domain_suffix:
+      match: perf.m.jd.com
+      policy: REJECT
+  # uranus.jd.com - 行为埋点日志
+  - domain_suffix:
+      match: uranus.jd.com
+      policy: REJECT
+  # anti-sdk-report - 反欺诈 SDK 上报
+  - domain_suffix:
+      match: anti-sdk-report.m.jd.com
+      policy: REJECT
+  # cactus.jd.com - 行为上报
+  - domain_suffix:
+      match: cactus.jd.com
+      policy: REJECT
+
+  # ════════════════════════════════════════════════
+  # 整域名屏蔽：风控 / 反欺诈
+  # ════════════════════════════════════════════════
+  # waapdg.jd.com - JD Guard 风控上报
+  - domain_suffix:
+      match: waapdg.jd.com
+      policy: REJECT
+  # dsap.jd.com - JD Guard 告警上报
+  - domain_suffix:
+      match: dsap.jd.com
+      policy: REJECT
+  # device-security-url - 设备安全版本查询
+  - domain_suffix:
+      match: device-security-url.jd.com
+      policy: REJECT
+  # rjsb-token - 风险 JS 宝 Token
+  - domain_suffix:
+      match: rjsb-token-m.jd.com
+      policy: REJECT
+  # heracles.jd.com - EID 策略下载
+  - domain_suffix:
+      match: heracles.jd.com
+      policy: REJECT
+
+  # ════════════════════════════════════════════════
+  # 整域名屏蔽：推送 / 配置 / 异常监控
+  # ════════════════════════════════════════════════
+  # ex.m.jd.com - 异常监控上报
+  - domain_suffix:
+      match: ex.m.jd.com
+      policy: REJECT
+  # h5speed.m.jd.com - 5G 速度活动
+  - domain_suffix:
+      match: h5speed.m.jd.com
+      policy: REJECT
+  # sdkfp.jd.com - SDK 指纹
+  - domain_suffix:
+      match: sdkfp.jd.com
+      policy: REJECT
+  # ccfjma.m.jd.com - 配置服务
+  - domain_suffix:
+      match: ccfjma.m.jd.com
+      policy: REJECT
+
+  # ════════════════════════════════════════════════
+  # URL 级别屏蔽：storage.360buyimg.com 皮肤 / 动画 / 视频
+  # 保留：商品默认图 / 用户上传图 / imgtools
+  # ════════════════════════════════════════════════
+  # 桌面皮肤配置 / 动画
+  - url_regex:
+      match: "^https://storage\\.360buyimg\\.com/mobileskin/"
+      policy: REJECT
+  # 太阳镜推送消息 / 彩蛋动画
+  - url_regex:
+      match: "^https://storage\\.360buyimg\\.com/sunglasses-push-msg/"
+      policy: REJECT
+  # 彩蛋动画 Lottie
+  - url_regex:
+      match: "^https://storage\\.360buyimg\\.com/(app.m.jd.com/lottie|appcartsoa)"
+      policy: REJECT
+  # 首页占位 / 风险 / 用户增长 ZIP 包
+  - url_regex:
+      match: "^https://storage\\.360buyimg\\.com/occupy-home/"
+      policy: REJECT
+
+  # ════════════════════════════════════════════════
+  # URL 级别屏蔽：api.m.jd.com 非必要接口
+  # 保留：basicConfig / logConfig / 商品搜索 / 购物车
+  # ════════════════════════════════════════════════
+  # 升级检查 / 推送配置
+  - url_regex:
+      match: "^https://api\\.m\\.jd\\.com/api/appPublishUpgrade"
+      policy: REJECT
+  # 推送开关上报
+  - url_regex:
+      match: "^https://api\\.m\\.jd\\.com/client\\.action\\?functionId=notiSwitchReport"
+      policy: REJECT
+
+  # ════════════════════════════════════════════════
+  # 整域名屏蔽：京东直播 / 视频广告
+  # ════════════════════════════════════════════════
+  # 京东直播 - 主页
+  - domain_suffix:
+      match: zhibo.jd.com
+      policy: REJECT
+  - domain_suffix:
+      match: zhibo.m.jd.com
+      policy: REJECT
+  - domain_suffix:
+      match: live.m.jd.com
+      policy: REJECT
+  - domain_suffix:
+      match: live.jd.com
+      policy: REJECT
+  # 京东直播 - 资源 & 流媒体
+  - domain_suffix:
+      match: live.360buyimg.com
+      policy: REJECT
+  - domain_suffix:
+      match: live.360buyimg.cn
+      policy: REJECT
+  # 京东直播 - 视频/CDN
+  - domain_suffix:
+      match: vcdn.jd.com
+      policy: REJECT
+  - domain_suffix:
+      match: vstatic.jd.com
+      policy: REJECT
+  # 直播嵌入 (购物页内嵌直播间)
+  - domain_suffix:
+      match: channel.jd.com
+      policy: REJECT
+  # 视频广告
+  - domain_suffix:
+      match: vod.300hu.com
+      policy: REJECT
+  - domain_suffix:
+      match: jvod.300hu.com
+      policy: REJECT
+
+  # ════════════════════════════════════════════════
+  # 整域名屏蔽：Apple Safe Browsing
+  # ════════════════════════════════════════════════
+  - domain_suffix:
+      match: token.safebrowsing.apple
+      policy: REJECT
+
+  # ════════════════════════════════════════════════
+  # 整域名屏蔽：京东推送 / 消息
+  # ════════════════════════════════════════════════
+  # sh.jd.com - 推送 (HAR 中 3 条，含 /d?fl= 追踪)
+  - domain_suffix:
+      match: sh.jd.com
+      policy: REJECT
+  - domain_suffix:
+      match: in.m.jd.com
+      policy: REJECT
+  - domain_suffix:
+      match: jra.jd.com
+      policy: REJECT
+
+  # ════════════════════════════════════════════════
+  # URL 级别屏蔽：storage.jd.com 非必要资源
+  # 保留：CDNWarmUp
+  # ════════════════════════════════════════════════
+  - url_regex:
+      match: "^https://storage\\.jd\\.com/appcartsoa/"
+      policy: REJECT

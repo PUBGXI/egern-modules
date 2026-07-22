@@ -23,7 +23,27 @@ rules:
       policy: REJECT
 
   # ════════════════════════════════════════════════
-  # 京东直播 - 资源 & 流媒体
+  # 京东直播 - 实时推送 / WebSocket
+  # ════════════════════════════════════════════════
+  - domain_suffix:
+      match: live-ws2.jd.com
+      policy: REJECT
+
+  # ════════════════════════════════════════════════
+  # 京东直播 - 流媒体拉流 / CDN
+  # ════════════════════════════════════════════════
+  - domain_suffix:
+      match: zt-pull-ai.jdcloud.com
+      policy: REJECT
+  - domain_suffix:
+      match: zt-pull.jdcloud.com
+      policy: REJECT
+  - domain_suffix:
+      match: discover.300hu.com
+      policy: REJECT
+
+  # ════════════════════════════════════════════════
+  # 京东直播 - 资源 & 缩略图
   # ════════════════════════════════════════════════
   - domain_suffix:
       match: live.360buyimg.com
@@ -31,22 +51,12 @@ rules:
   - domain_suffix:
       match: live.360buyimg.cn
       policy: REJECT
-
-  # ════════════════════════════════════════════════
-  # 京东直播 - 视频 CDN
-  # ════════════════════════════════════════════════
-  - domain_suffix:
-      match: vcdn.jd.com
+  # m.360buyimg.com/live/ - 直播间封面图
+  - url_regex:
+      match: "^https://m\\.360buyimg\\.com/live/"
       policy: REJECT
-  - domain_suffix:
-      match: vstatic.jd.com
-      policy: REJECT
-
-  # ════════════════════════════════════════════════
-  # 购物页内嵌直播间
-  # ════════════════════════════════════════════════
-  - domain_suffix:
-      match: channel.jd.com
+  - url_regex:
+      match: "^https://img\\d*\\.360buyimg\\.com/livecms/"
       policy: REJECT
 
   # ════════════════════════════════════════════════

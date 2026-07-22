@@ -1,0 +1,195 @@
+name: "斗鱼精简模式"
+description: "仅保留斗鱼直播流和弹幕功能，屏蔽广告、推荐、统计追踪、礼物、活动等非必要请求"
+author: "minis"
+icon: "tv.slash"
+homepage: "https://doc.egernapp.com"
+manual: "https://doc.egernapp.com/zh-CN/docs/configuration/modules"
+
+rules:
+  # ════════════════════════════════════════════════
+  # 整域名屏蔽：广告 / 统计 / 追踪
+  # ════════════════════════════════════════════════
+  - domain_suffix:
+      match: dotserver.douyucdn.cn
+      policy: REJECT
+  - domain_suffix:
+      match: dotab.douyucdn.cn
+      policy: REJECT
+  - domain_suffix:
+      match: dotbeats.douyucdn.cn
+      policy: REJECT
+  - domain_suffix:
+      match: dotcounter.douyucdn.cn
+      policy: REJECT
+  - domain_suffix:
+      match: streamdot.douyucdn.cn
+      policy: REJECT
+  - domain_suffix:
+      match: rtbapi.douyucdn.cn
+      policy: REJECT
+  - domain_suffix:
+      match: p2plog.douyucdn.cn
+      policy: REJECT
+  - domain_suffix:
+      match: p2perrorlog.douyucdn.cn
+      policy: REJECT
+  - domain_suffix:
+      match: abvolcapi.douyucdn.cn
+      policy: REJECT
+
+  # ════════════════════════════════════════════════
+  # 整域名屏蔽：第三方 SDK
+  # ════════════════════════════════════════════════
+  - domain_suffix:
+      match: pro.bugly.qq.com
+      policy: REJECT
+  - domain_suffix:
+      match: lts-access.cn-north-4.myhuaweicloud.com
+      policy: REJECT
+  - domain_suffix:
+      match: ylog.huya.com
+      policy: REJECT
+  - domain_suffix:
+      match: cdnws.api.huya.com
+      policy: REJECT
+  - domain_suffix:
+      match: ded35397-ws.va.huya.com
+      policy: REJECT
+  - domain_suffix:
+      match: pgdt.gtimg.cn
+      policy: REJECT
+  - domain_suffix:
+      match: userlink.alicdn.com
+      policy: REJECT
+  - domain_suffix:
+      match: api.weibo.com
+      policy: REJECT
+  - domain_suffix:
+      match: onepass.geetest.com
+      policy: REJECT
+  - domain_suffix:
+      match: ssdkauth.hpplay.cn
+      policy: REJECT
+
+  # ════════════════════════════════════════════════
+  # 整域名屏蔽：推荐 / 礼物 / 活动 / 社区
+  # ════════════════════════════════════════════════
+  - domain_suffix:
+      match: rpic.douyucdn.cn
+      policy: REJECT
+  - domain_suffix:
+      match: gift.douyucdn.cn
+      policy: REJECT
+  - domain_suffix:
+      match: shark2.douyucdn.cn
+      policy: REJECT
+  - domain_suffix:
+      match: gfs-op.douyucdn.cn
+      policy: REJECT
+  - domain_suffix:
+      match: mapi-yuba.douyu.com
+      policy: REJECT
+  - domain_suffix:
+      match: venus.douyucdn.cn
+      policy: REJECT
+  - domain_suffix:
+      match: tower.douyucdn.cn
+      policy: REJECT
+  - domain_suffix:
+      match: z3-op.douyucdn.cn
+      policy: REJECT
+
+  # ════════════════════════════════════════════════
+  # URL 级别屏蔽：apiv2.douyucdn.cn 混合域名
+  # 保留：房间信息 / 弹幕角色 / 音频流 / CDN切换
+  # ════════════════════════════════════════════════
+  # 广告投放 & 广告上报
+  - url_regex:
+      match: "^https://apiv2\\.douyucdn\\.cn/(japi/adgrowth|ggapi)/"
+      policy: REJECT
+  # 活动 / 狂欢节 / 抽奖 / 裂变 / 狂欢节API
+  - url_regex:
+      match: "^https://apiv2\\.douyucdn\\.cn/(japi/carnival|japi/carnivalApi|mgapi/activity|japi/operation)/"
+      policy: REJECT
+  # 收入 / 创作者 / 等级成长 / 道具商城 / OMS
+  - url_regex:
+      match: "^https://apiv2\\.douyucdn\\.cn/(japi/revenuenc|japi/creator|japi/growth|japi/propmall|japi/oms)/"
+      policy: REJECT
+  # 直播业务 (星秀发现 / 礼物笔记)
+  - url_regex:
+      match: "^https://apiv2\\.douyucdn\\.cn/japi/livebiz"
+      policy: REJECT
+  # 互动 (幻想岛 / 潘多拉 / 入口广告 / 才艺秀 / 主播支持计划 / 用户荣誉 / 粉丝勋章弹窗)
+  - url_regex:
+      match: "^https://apiv2\\.douyucdn\\.cn/(japi/interact/cdn/(anchorSupportPlan|entrance)|japi/interact/comm/(fantasyIsLand|pandora|userAttribute)|japi/interactnc/app/(talentShow|open_api|dFansbadge/popularDanmu))"
+      policy: REJECT
+  # 互动数据 / 轮询 / 竞猜
+  - url_regex:
+      match: "^https://apiv2\\.douyucdn\\.cn/lapi/interact/(fxtz|polling|quiz)"
+      policy: REJECT
+  # 排行榜
+  - url_regex:
+      match: "^https://apiv2\\.douyucdn\\.cn/live/rank/"
+      policy: REJECT
+  # 推荐 / 首页 / 列表推荐 / 赛事中心 / 增强直播 / 游戏检查
+  - url_regex:
+      match: "^https://apiv2\\.douyucdn\\.cn/mgapi/(livenc/(home|listapp|game|match)|live/match|augmentedlive)/"
+      policy: REJECT
+  # 粉丝勋章弹窗
+  - url_regex:
+      match: "^https://apiv2\\.douyucdn\\.cn/japi/interactnc/app/dFansbadge/popularDanmu$"
+      policy: REJECT
+  # 新用户弹窗 / 活动弹窗
+  - url_regex:
+      match: "^https://apiv2\\.douyucdn\\.cn/mgapi/activitync/(newusers|popupWindow)/"
+      policy: REJECT
+  # 推送 / 美颜 / 活动挂件 / 活动规则
+  - url_regex:
+      match: "^https://apiv2\\.douyucdn\\.cn/mgapi/(pushnc|ordnc/room/beauty|activity/pendant|activitync/pendant)/"
+      policy: REJECT
+
+  # ════════════════════════════════════════════════
+  # URL 级别屏蔽：apiv3.douyucdn.cn 混合域名
+  # 保留：房间信息 / 主播生态
+  # ════════════════════════════════════════════════
+  # 推荐列表 / 随机推荐
+  - url_regex:
+      match: "^https://apiv3\\.douyucdn\\.cn/mgapi/ordnc/"
+      policy: REJECT
+  # A/B 测试 / 首页推荐 / 列表推荐 / 首页导航 / 搜索默认词 / 皮肤
+  - url_regex:
+      match: "^https://apiv3\\.douyucdn\\.cn/mgapi/livenc/(mhome/abtest|mhome/(getKingKong|search|tag)|home/|listapp/)"
+      policy: REJECT
+  # 房间皮肤 / 鱼吧通知 / 活动推荐 / 客户端启动页规则 / 电商商品 / 社区卡片 / PK活动
+  - url_regex:
+      match: "^https://apiv3\\.douyucdn\\.cn/mgapi/(ord/room/skin|yubanc|livenc/(mhome/getActivityRec|mhome/getLayerRec|appskin|clientboot|community)|ord/audio/activity)"
+      policy: REJECT
+  # 电商 / 彩蛋
+  - url_regex:
+      match: "^https://apiv3\\.douyucdn\\.cn/japi/(ecl|channel/ext/app/cdn/easterEgg)/"
+      policy: REJECT
+  # 首页娱乐导航 / 精选 / 分类
+  - url_regex:
+      match: "^https://apiv3\\.douyucdn\\.cn/mgapi/livenc/mhome/(getYuleKingKong|getYuleJingxuan)"
+      policy: REJECT
+
+  # ════════════════════════════════════════════════
+  # URL 级别屏蔽：www.douyu.com 混合域名
+  # 保留：房间循环信息
+  # ════════════════════════════════════════════════
+  - url_regex:
+      match: "^https://www\\.douyu\\.com/(japi/carnival|mgapi/activity)/"
+      policy: REJECT
+
+  # ════════════════════════════════════════════════
+  # URL 级别屏蔽：mconf.douyucdn.cn 活动配置
+  # 保留：直播核心配置 / 移动端分类 / 新用户引导
+  # ════════════════════════════════════════════════
+  # 活动配置 / 狂欢节 / 广告抽奖
+  - url_regex:
+      match: "^https://mconf\\.douyucdn\\.cn/resource/(common/activity|carnival|m/ad)"
+      policy: REJECT
+  # 互动活动配置 (礼物 / 充值 / 房间任务 / 粉丝 / 星力 / 抽奖 / 才艺秀 / AI礼物等)
+  - url_regex:
+      match: "^https://mconf\\.douyucdn\\.cn/resource/common/(config/(inter_com_m_(act|diamond|random_gift|recharge|spring|star|superfans|silver|room_ship|admin|anchor_play|cp_recommend|girl|constellation|magical|new_car|normalact|inter_tool|interactive|luckybox|talent_show|ad_gift|play_together)|inter_com_wish|aiAvatarGift|biz_interact|dfansAiGift|dfans_act)|gift_activity|interact|fans|dream|duel|fantasy|legend|quantum|interstellar|seafaring|snow|star_trek|defense|desert|happy|magic|little|voice_danmu|comm_broadcast|creation|growth_level|room_vip|rand_gift|assemble|beacon|discount|fansParty|dfans|carnival|bj_inter)"
+      policy: REJECT

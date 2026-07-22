@@ -1,13 +1,13 @@
-name: "京东精简"
-description: "屏蔽购物页直播、看了又看、为你推荐、优惠随手买、活动专区、动画特效"
+name: "京东精简模式"
+description: "屏蔽购物页面直播、看了又看、优惠随手买、为你推荐、活动专区；保留核心购物功能"
 author: "minis"
-icon: "video.slash"
+icon: "cart.badge.minus"
 homepage: "https://doc.egernapp.com"
 manual: "https://doc.egernapp.com/zh-CN/docs/configuration/modules"
 
 rules:
   # ════════════════════════════════════════════════
-  # 京东直播 - 主页 / 直播域
+  # 京东直播 - 主页
   # ════════════════════════════════════════════════
   - domain_suffix:
       match: zhibo.jd.com
@@ -23,11 +23,15 @@ rules:
       policy: REJECT
 
   # ════════════════════════════════════════════════
-  # 京东直播 - WebSocket / FLV 拉流 / 转码
+  # 京东直播 - 实时推送 / WebSocket
   # ════════════════════════════════════════════════
   - domain_suffix:
       match: live-ws2.jd.com
       policy: REJECT
+
+  # ════════════════════════════════════════════════
+  # 京东直播 - 流媒体拉流 / CDN
+  # ════════════════════════════════════════════════
   - domain_suffix:
       match: zt-pull-ai.jdcloud.com
       policy: REJECT
@@ -39,13 +43,60 @@ rules:
       policy: REJECT
 
   # ════════════════════════════════════════════════
-  # 直播封面图 / 直播动图
+  # 京东直播 - 资源 & 封面图
   # ════════════════════════════════════════════════
+  - domain_suffix:
+      match: live.360buyimg.com
+      policy: REJECT
+  - domain_suffix:
+      match: live.360buyimg.cn
+      policy: REJECT
+  # m.360buyimg.com/live/ - 直播间封面图
   - url_regex:
       match: "^https://m\\.360buyimg\\.com/live/"
       policy: REJECT
   - url_regex:
       match: "^https://img\\d*\\.360buyimg\\.com/livecms/"
+      policy: REJECT
+
+  # ════════════════════════════════════════════════
+  # 看了又看 / AI识货 - 拍照购 / 为你推荐
+  # ════════════════════════════════════════════════
+  # occupy-home 系列：userGrowth(为你推荐)、realPhotoRec(AI识货/看了又看)、barcode(扫码购)
+  - url_regex:
+      match: "^https://storage\\.360buyimg\\.com/occupy-home/"
+      policy: REJECT
+
+  # ════════════════════════════════════════════════
+  # 活动专区 / 首页营销皮肤
+  # ════════════════════════════════════════════════
+  # mobileskin - 首页活动皮肤配置
+  - url_regex:
+      match: "^https://storage\\.360buyimg\\.com/mobileskin/"
+      policy: REJECT
+
+  # ════════════════════════════════════════════════
+  # 优惠随手买 / 购物车活动
+  # ════════════════════════════════════════════════
+  # appcartsoa - 购物车促销活动 (桃花/彩蛋/必须买)
+  - url_regex:
+      match: "^https://storage\\.360buyimg\\.com/appcartsoa/"
+      policy: REJECT
+
+  # ════════════════════════════════════════════════
+  # 营销动画 / 推送特效
+  # ════════════════════════════════════════════════
+  # lottie 动画 (砸金蛋/烟花/光环/红包)
+  - url_regex:
+      match: "^https://storage\\.360buyimg\\.com/app\\.m\\.jd\\.com/lottie/"
+      policy: REJECT
+  # push-msg 推送特效 (砸金蛋动画)
+  - url_regex:
+      match: "^https://storage\\.360buyimg\\.com/sunglasses-push-msg/"
+      policy: REJECT
+  # AR 营销资源
+  - url_regex:
+      match: "^https://arvr-img\\.300hu\\.com/home_tools_resource/"
       policy: REJECT
 
   # ════════════════════════════════════════════════
@@ -56,40 +107,4 @@ rules:
       policy: REJECT
   - domain_suffix:
       match: jvod.300hu.com
-      policy: REJECT
-
-  # ════════════════════════════════════════════════
-  # 看了又看 / 为你推荐 / 活动专区（occupy-home 功能模块）
-  # userGrowth=为你推荐  realPhotoRec=AI识货  barcode=扫码
-  # trafficRisk=风控（不影响购物，可屏蔽）
-  # ════════════════════════════════════════════════
-  - url_regex:
-      match: "^https://storage\\.360buyimg\\.com/occupy-home/"
-      policy: REJECT
-
-  # ════════════════════════════════════════════════
-  # 活动专区 / 首页营销皮肤
-  # ════════════════════════════════════════════════
-  - url_regex:
-      match: "^https://storage\\.360buyimg\\.com/mobileskin/"
-      policy: REJECT
-
-  # ════════════════════════════════════════════════
-  # 优惠随手买 / 砸金蛋 / 购物车活动 / 桃花
-  # ════════════════════════════════════════════════
-  - url_regex:
-      match: "^https://storage\\.360buyimg\\.com/appcartsoa/"
-      policy: REJECT
-  - url_regex:
-      match: "^https://storage\\.360buyimg\\.com/app\\.m\\.jd\\.com/lottie/"
-      policy: REJECT
-  - url_regex:
-      match: "^https://storage\\.360buyimg\\.com/sunglasses-push-msg/"
-      policy: REJECT
-
-  # ════════════════════════════════════════════════
-  # 首页活动工具资源
-  # ════════════════════════════════════════════════
-  - url_regex:
-      match: "^https://arvr-img\\.300hu\\.com/home_tools_resource/"
       policy: REJECT
